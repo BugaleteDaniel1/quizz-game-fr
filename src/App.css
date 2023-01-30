@@ -13,8 +13,13 @@
 }
 
 .selected-answer {
-  background: #535bf2;
-  color: #fff;
+  font-weight: 500;
+  color: #646cff;
+  cursor: pointer;
+  border: 1px solid #535bf2;
+  border-radius: 5px;
+  padding: 3px;
+  transition: border 0.3s;
 }
 
 .answers-container {

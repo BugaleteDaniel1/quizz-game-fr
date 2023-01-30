@@ -27,7 +27,7 @@ const reducer = (state, action) => {
   }
   if (action.type === "SELECT_ANSWER") {
     const newData = state.data.map((el) => {
-      return el.answers.map((ans) => {
+      const changedAns = el.answers.map((ans) => {
         if (ans.id === action.payload) {
           return {
             ...ans,
@@ -35,6 +35,7 @@ const reducer = (state, action) => {
           };
         } else return { ...ans };
       });
+      return { ...el, answers: changedAns };
     });
     console.log(newData);
     return { ...state, data: newData };
