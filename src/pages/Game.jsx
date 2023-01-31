@@ -11,7 +11,7 @@ const transformText = (question) => {
 
 export const Game = () => {
   const props = useGlobalContext();
-  const { isLoaded, data, checked } = props.state;
+  const { isLoaded, data, checked, correct } = props.state;
   const { dispatch } = props;
 
   const check = () => {
@@ -57,6 +57,11 @@ export const Game = () => {
     });
     return (
       <>
+        {checked ? (
+          <div>
+            You answers correctly at {correct} questions out of {data.length}{" "}
+          </div>
+        ) : null}
         <div className="game">{questions}</div>
         {checked ? (
           <Link onClick={restart} className="check-btn" to="/">

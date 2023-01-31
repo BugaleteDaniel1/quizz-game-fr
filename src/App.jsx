@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { StartScreen } from "./pages/Home";
+import { StartScreen } from "./pages/StartScreen";
 import { Game } from "./pages/Game";
 import { useGlobalContext } from "./context";
 import { useEffect } from "react";

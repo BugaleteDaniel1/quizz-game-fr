@@ -25,16 +25,16 @@ const defaultState = {
 };
 
 const reducer = (state, action) => {
-  console.log(state);
+  let newSelectCorrect = 0;
+
   if (action.type === "GET_DATA") {
     return { ...state, data: action.payload, isLoaded: true };
   }
   if (action.type === "SELECT_ANSWER") {
-    let newSelectCounter = 0;
     const newData = state.data.map((el) => {
       const changedAns = el.answers.map((ans) => {
         if (ans.id === action.payload) {
-          newSelectCounter++;
+          ans.correct && newSelectCorrect++;
           return {
             ...ans,
             selected: !ans.selected,
@@ -43,8 +43,11 @@ const reducer = (state, action) => {
       });
       return { ...el, answers: changedAns };
     });
-    console.log(newData);
-    return { ...state, data: newData, selectCounter: newSelectCounter };
+    return {
+      ...state,
+      data: newData,
+      correct: newSelectCorrect,
+    };
   }
 
   if (action.type === "CHECK_ANSWERS") {
