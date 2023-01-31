@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Loading } from "../components/Loading";
 import { useGlobalContext } from "../context";
 
@@ -10,24 +11,43 @@ const transformText = (question) => {
 
 export const Game = () => {
   const props = useGlobalContext();
-  const { isLoaded, data } = props.state;
+  const { isLoaded, data, checked } = props.state;
   const { dispatch } = props;
+
+  const check = () => {
+    dispatch({ type: "CHECK_ANSWERS" });
+  };
+  const restart = () => {
+    dispatch({ type: "RESTART" });
+  };
+  const checkAns = (id) => {
+    dispatch({ type: "SELECT_ANSWER", payload: id });
+  };
+
   if (isLoaded) {
     const questions = data.map((question) => {
       return (
         <div className="question-container" key={question.q.id}>
           <h3 className="questions">{transformText(question.q.q)}</h3>
           <div className="answers-container">
-            {question.answers.map(({ answer, id, selected }) => {
+            {question.answers.map(({ answer, id, selected, correct }) => {
+              let style = "";
+              if (!checked) {
+                style = selected ? "selected-answer" : "answer";
+              }
+              if (checked) {
+                style = "answer-frozen";
+                if (selected && correct) {
+                  style = "correct";
+                } else if (selected && !correct) style = "incorrect";
+              }
               return (
                 <span
-                  onClick={() =>
-                    dispatch({ type: "SELECT_ANSWER", payload: id })
-                  }
+                  onClick={!checked ? () => checkAns(id) : undefined}
                   key={id}
-                  className={selected ? "selected-answer" : "answer"}
+                  className={style}
                 >
-                  {answer}
+                  {transformText(answer)}
                 </span>
               );
             })}
@@ -37,8 +57,16 @@ export const Game = () => {
     });
     return (
       <>
-        <div>{questions}</div>
-        <button>Check Answers</button>
+        <div className="game">{questions}</div>
+        {checked ? (
+          <Link onClick={restart} className="check-btn" to="/">
+            Restart
+          </Link>
+        ) : (
+          <button className="check-btn" onClick={check}>
+            check answers
+          </button>
+        )}
       </>
     );
   } else return <Loading />;

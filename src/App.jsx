@@ -8,13 +8,13 @@ import { useEffect } from "react";
 function App() {
   const { isLoaded } = useGlobalContext();
 
-  return <Game />;
-  // return (
-  //   <Routes>
-  //     <Route path="/" element={<StartScreen />} />
-  //     <Route path="/start-game" element={<Game />} />
-  //   </Routes>
-  // );
+  // return <Game />;
+  return (
+    <Routes>
+      <Route path="/" element={<StartScreen />} />
+      <Route path="/start-game" element={<Game />} />
+    </Routes>
+  );
 }
 
 export default App;
