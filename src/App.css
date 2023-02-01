@@ -96,3 +96,8 @@ body {
   transition: border 0.3s;
   background: red;
 }
+
+button:disabled {
+  filter: brightness(1.9);
+  cursor: default;
+}

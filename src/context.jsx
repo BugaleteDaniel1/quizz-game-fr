@@ -19,22 +19,29 @@ const shuffle = (arr) => {
 const defaultState = {
   isLoaded: false,
   data: ["no data for now"],
-  selectCounter: 0,
+  counter: 0,
   correct: 0,
   checked: false,
 };
+let correctCounter = 0;
+let incorrectCounter = 0;
 
 const reducer = (state, action) => {
-  let newSelectCorrect = 0;
+  console.log(state);
 
   if (action.type === "GET_DATA") {
     return { ...state, data: action.payload, isLoaded: true };
   }
   if (action.type === "SELECT_ANSWER") {
+    // debugger;
     const newData = state.data.map((el) => {
       const changedAns = el.answers.map((ans) => {
         if (ans.id === action.payload) {
-          ans.correct && newSelectCorrect++;
+          if (ans.id === action.payload && ans.correct === true) {
+            correctCounter += 0.5;
+          } else if (ans.id === action.payload && ans.selected === false) {
+            incorrectCounter += 0.5;
+          }
           return {
             ...ans,
             selected: !ans.selected,
@@ -46,7 +53,8 @@ const reducer = (state, action) => {
     return {
       ...state,
       data: newData,
-      correct: newSelectCorrect,
+      correct: correctCounter,
+      counter: incorrectCounter + correctCounter,
     };
   }
 
@@ -96,10 +104,6 @@ export const Context = ({ children }) => {
     });
     dispatch({ type: "GET_DATA", payload: data });
   };
-
-  //   const selectAnswer = (id) => {
-  //     ;
-  //   };
 
   return (
     <context.Provider
